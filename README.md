@@ -9,4 +9,4 @@ beacuse the original Vnet have so many parameter, so it may suffer from overfitt
 
 ## TODO:
 - [x] liver segmentation
-- [] tumor segmentation
+- [ ] tumor segmentation
