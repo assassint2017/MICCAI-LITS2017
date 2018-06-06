@@ -7,4 +7,6 @@ https://arxiv.org/abs/1606.04797
 
 beacuse the original Vnet have so many parameter, so it may suffer from overfitting, so i change the kernel size of each 3D conv layer to 3*3*3, here are the result i get:
 
-TODO:tumor segmentation
+## TODO:
+- [x] liver segmentation
+- [] tumor segmentation
