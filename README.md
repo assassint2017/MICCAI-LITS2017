@@ -10,14 +10,13 @@ beacuse the original Vnet have so many parameters, so it may suffer from overfit
 ![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/liver_seg.png)
 
 ## Implementation Details
-i split the orgin traning set to 111 and 20 as my own training and test set.i use adam optimzer, set the initial learning rate to 1e-4 and decay 10 times at 30, 60 epoch.traing process run on three GTX 1080Ti with batch size epual to 3.
+i split the orgin traning set to 111 and 20 as my own training and test set.i use adam optimzer, set the initial learning rate to 1e-4 and decay 10 times at 30, 60 epoch.The whole traning process run on three GTX 1080Ti with batch size epual to 3.
 
 ## Result 
-i use dice per case as metrics, i find differenet inputs reslution affect the final result a lot, the final input to the net is 256x256x48， with axial spacing norm to 2mm, and i get 0.953 Dice per case for liver segmentation at my test set.
-
+i use dice per case as metrics, and find differenet inputs reslution affect the final result a lot, through a lot of experiment, the final input to the net is 256x256x48， with axial spacing norm to 2mm, and i get 0.953 Dice per case for liver segmentation at my test set.
 
 ## Next work
-my net still have some overfit problem. so next work foucs on using more powerful and efficient network and data augmentation like rotating or elastic deformation to get better result.
+my net still have some overfit problem. so next work will foucs on using more powerful and efficient network and data augmentation like rotating or elastic deformation to get better result.
 
 ### TODO:
 - [x] liver segmentation
