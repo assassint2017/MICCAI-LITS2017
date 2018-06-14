@@ -5,7 +5,7 @@ https://competitions.codalab.org/competitions/17094
 i use VNet in this task. for the detail about the network architecture, you can check this link:
 https://arxiv.org/abs/1606.04797
 
-beacuse the original Vnet have so many parameters, so it may suffer from overfitting, thus,  i change the kernel size of each 3D convlayer to 3*3*3, and add dropout layer at some end of residual block. here i will show you some segmentation result i get:(blue repressent ground truth, red repressent the predict mask)
+beacuse the original Vnet have so many parameters, so it may suffer from overfitting, thus,  i change the kernel size of each 3D convlayer to 3x3x3, and add dropout layer at some end of residual block. here i will show you some segmentation result i get:(blue repressent ground truth, red repressent the predict mask)
 
 ![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/liver_seg.png)
 
@@ -13,7 +13,7 @@ beacuse the original Vnet have so many parameters, so it may suffer from overfit
 i split the orgin traning set to 111 and 20 as my own training and test set.i use adam optimzer, set the initial learning rate to 1e-4 and decay 10 times at 30, 60 epoch.traing process run on three GTX 1080Ti with batch size epual to 3.
 
 ## Result 
-i use dice per case as metrics, i find differenet inputs reslution affect the final result a lot, the final input to the net is 256*256*48， with axial spacing norm to 2mm, and i get 0.953 Dice per case for liver segmentation at my test set.
+i use dice per case as metrics, i find differenet inputs reslution affect the final result a lot, the final input to the net is 256x256x48， with axial spacing norm to 2mm, and i get 0.953 Dice per case for liver segmentation at my test set.
 
 
 ## Next work
