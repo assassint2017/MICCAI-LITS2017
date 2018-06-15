@@ -1,6 +1,6 @@
 """
 
-分辨率256*256下的测试脚本
+分辨率256*256下的肝脏分割测试脚本
 """
 
 import os
@@ -19,9 +19,9 @@ from net.VNet_kernel3_dropoutv2 import VNet
 test_ct_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/CT/'
 test_seg_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/seg/'
 
-pred_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/pred/'
+liver_pred_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/liverpred/'
 
-module_dir = './module/net45-0.022.pth'
+module_dir = './module/net99-0.026.pth'
 
 upper = 200
 lower = -200
@@ -142,7 +142,7 @@ for file in os.listdir(test_ct_dir):
     pred_seg.SetOrigin(ct.GetOrigin())
     pred_seg.SetSpacing(ct.GetSpacing())
 
-    sitk.WriteImage(pred_seg, os.path.join(pred_dir, file.replace('volume', 'pred')))
+    sitk.WriteImage(pred_seg, os.path.join(liver_pred_dir, file.replace('volume', 'pred')))
     del pred_seg
 
     time_list.append(time() - start)
