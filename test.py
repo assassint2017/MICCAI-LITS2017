@@ -7,6 +7,7 @@ import os
 from time import time
 
 import torch
+import torch.nn.functional as F
 import numpy as np
 import SimpleITK as sitk
 import scipy.ndimage as ndimage
@@ -21,7 +22,7 @@ test_seg_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/seg/'
 
 liver_pred_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/liverpred/'
 
-module_dir = './module/net99-0.026.pth'
+module_dir = './test/net90-0.023.pth'
 
 upper = 200
 lower = -200
@@ -47,8 +48,8 @@ for file in os.listdir(test_ct_dir):
     ct_array = sitk.GetArrayFromImage(ct)
 
     # 将灰度值在阈值之外的截断掉
-    ct_array[ct_array > upper] = -1000
-    ct_array[ct_array < lower] = -1000
+    ct_array[ct_array > upper] = 200
+    ct_array[ct_array < lower] = -200
 
     # 对CT使用双三次算法进行插值，插值之后的array依然是int16
     ct_array = ndimage.zoom(ct_array, (ct.GetSpacing()[-1] / slice_thickness, down_scale, down_scale), order=3)
@@ -101,7 +102,7 @@ for file in os.listdir(test_ct_dir):
 
     # 使用线性插值将预测的分割结果缩放到原始nii大小
     pred_seg = torch.FloatTensor(pred_seg).unsqueeze(dim=0).unsqueeze(dim=0)
-    pred_seg = torch.nn.functional.upsample(pred_seg, seg_array.shape, mode='trilinear').squeeze().numpy()
+    pred_seg = F.upsample(pred_seg, seg_array.shape, mode='trilinear').squeeze().numpy()
     pred_seg = np.round(pred_seg).astype(np.uint8)
 
     # # 先进行腐蚀

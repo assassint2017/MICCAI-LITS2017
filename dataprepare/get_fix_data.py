@@ -1,7 +1,7 @@
 """
 
 获取固定取样方式下的训练数据
-首先将灰度值超过upper和低于lower的全部置为-1000
+首先将灰度值超过upper和低于lower的灰度进行截断
 然后调整slice thickness，然后将slice的分辨率调整为256*256
 只有包含肝脏以及肝脏上下 expand_slice 张slice作为训练样本
 最后将输入数据分块，以轴向 stride 张slice为步长进行取样
@@ -29,8 +29,8 @@ slice_thickness = 2
 ct_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/train/CT/'
 seg_dir = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/train/seg/'
 
-new_ct_dir = '/home/zcy/Desktop/train/fix/ct/'
-new_seg_dir = '/home/zcy/Desktop/train/fix/seg/'
+new_ct_dir = '/home/zcy/Desktop/train/test/ct/'
+new_seg_dir = '/home/zcy/Desktop/train/test/seg/'
 
 file_index = 0
 
@@ -51,8 +51,8 @@ for ct_file in os.listdir(ct_dir):
     seg_array[seg_array > 0] = 1
 
     # 将灰度值在阈值之外的截断掉
-    ct_array[ct_array > upper] = -1000
-    ct_array[ct_array < lower] = -1000
+    ct_array[ct_array > upper] = 200
+    ct_array[ct_array < lower] = -200
 
     # 对CT和金标准使用双三次算法进行插值，插值之后的array依然是int类型
     ct_array = ndimage.zoom(ct_array, (ct.GetSpacing()[-1] / slice_thickness, down_scale, down_scale), order=3)
