@@ -20,7 +20,7 @@ i use dice per case as metrics, and find differenet inputs resolution affect the
 |128x128x32|3mm|5|5|0.895|
 |128x128x32|3mm|15|3|0.914|
 |256x256x32|3mm|15|3|0.932|
-|256x256x48|2mm|20|3|0.953|
+|256x256x48|2mm|20|3|0.957|
 
 
 ## Next work
