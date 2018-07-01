@@ -1,3 +1,8 @@
+"""
+
+加入深度监督之后的训练脚本
+"""
+
 from time import time
 import os
 
@@ -7,7 +12,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 from Dice_loss import DiceLoss
-from VNet_dial import net
+from VNet_dialv2 import net
 from dataset import train_stage1_ds
 
 
