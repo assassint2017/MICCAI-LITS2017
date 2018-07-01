@@ -5,6 +5,7 @@ https://competitions.codalab.org/competitions/17094
 i use VNet in this task. for the detail about the network architecture, you can check this link:  
 https://arxiv.org/abs/1606.04797
 
+## The change i make
 beacuse the original Vnet have so many parameters, so it may suffer from overfitting, thus,  i change the kernel size of each 3D convlayer to 3x3x3, and add dropout layer at some end of residual block. **and then i remove the last stage of the VNet since it is so coarse to help recover the segmentation detial, doing so, significantly reduced the receptive field, therefore, in order to compensate for the loss of receptive fields, i add some hybrid dilated convolution.** here i will show you some segmentation result i get:(blue repressent ground truth, red repressent the predict mask)
 
 ![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/liver_seg.png)
