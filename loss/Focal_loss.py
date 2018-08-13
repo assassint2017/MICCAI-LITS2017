@@ -11,13 +11,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class DiceLoss(nn.Module):
+class FocalLoss(nn.Module):
     def __init__(self, alpha=0.25, gama=2):
         """
 
         :param alpha: 论文中的正负样本的权重项，0.25是论文中的默认参数
         :param gama: 论文中的次方项，2是论文中的默认参数
-        
+
         在默认参数的情况下效果也还可以，但是不如DiceLoss，所以要涉及到大量调参
         """
         super().__init__()
