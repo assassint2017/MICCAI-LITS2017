@@ -11,6 +11,7 @@ import torch
 from torch.utils.data import Dataset as dataset
 
 on_server = True
+size = 48
 
 
 class Dataset(dataset):
@@ -34,12 +35,12 @@ class Dataset(dataset):
         ct_array = sitk.GetArrayFromImage(ct)
         seg_array = sitk.GetArrayFromImage(seg)
 
-        # 在slice平面内随机选取256*256的patch
-        point_x = random.randint(0, 256)
-        point_y = random.randint(0, 256)
+        # 在slice平面内随机选取48张slice
+        start_slice = random.randint(0, ct_array.shape[0] - size)
+        end_slice = start_slice + size - 1
 
-        ct_array = ct_array[:, point_x:point_x + 256, point_y:point_y + 256]
-        seg_array = seg_array[:, point_x:point_x + 256, point_y:point_y + 256]
+        ct_array = ct_array[start_slice:end_slice + 1, :, :]
+        seg_array = seg_array[start_slice:end_slice + 1, :, :]
 
         # 处理完毕，将array转换为tensor
         ct_array = torch.FloatTensor(ct_array).unsqueeze(0)
@@ -52,19 +53,19 @@ class Dataset(dataset):
         return len(self.ct_list)
 
 
-# 第二阶段的训练数据
-ct_dir = '/home/zcy/Desktop/train/random/ct/' \
-    if on_server is False else './train/random/ct/'
-seg_dir = '/home/zcy/Desktop/train/random/seg/' \
-    if on_server is False else './train/random/seg/'
+ct_dir = '/home/zcy/Desktop/train/ct/' \
+    if on_server is False else './train/ct/'
+seg_dir = '/home/zcy/Desktop/train/seg/' \
+    if on_server is False else './train/seg/'
 
-train_random_ds = Dataset(ct_dir, seg_dir)
+train_ds = Dataset(ct_dir, seg_dir)
 
-
+#
 # # 测试代码
 # from torch.utils.data import DataLoader
-# train_dl = DataLoader(train_random_ds, 6, True)
+# train_dl = DataLoader(train_ds, 6, True)
 # for index, (ct, seg) in enumerate(train_dl):
 #
 #     print(index, ct.size(), seg.size())
 #     print('----------------')
+

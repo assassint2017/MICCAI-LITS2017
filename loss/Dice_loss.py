@@ -21,3 +21,4 @@ class DiceLoss(nn.Module):
 
         # 返回的是dice距离
         return (1 - dice).mean()
+

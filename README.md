@@ -23,7 +23,7 @@ i use dice per case as metrics, and find differenet inputs resolution affect the
 |256x256x32|3mm|15|3|0.932|
 |256x256x48|2mm|20|3|0.957|
 
-**since i remove the last stage of VNet, add dilated convolution and deep supervision, the performance has increased dramatically from 0.957 to 0.963**
+**since i remove the last stage of VNet, add dilated convolution and deep supervision, the performance has increased dramatically from 0.957 to 0.964**
 
 
 ## Next work

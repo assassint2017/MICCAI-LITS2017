@@ -42,7 +42,6 @@ class Dataset(dataset):
         return len(self.ct_list)
 
 
-# 第一阶段的训练数据
 ct_dir = '/home/zcy/Desktop/train/fix/ct/' \
     if on_server is False else './train/fix/ct/'
 seg_dir = '/home/zcy/Desktop/train/fix/seg/' \
@@ -59,3 +58,4 @@ train_fix_ds = Dataset(ct_dir, seg_dir)
 #     # print(type(ct), type(seg))
 #     print(index, ct.size(), seg.size())
 #     print('----------------')
+
