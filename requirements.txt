@@ -1,0 +1,9 @@
+numpy==1.14.2
+torch==1.0.1.post2
+visdom==0.1.8.8
+pandas==0.23.3
+scipy==1.0.0
+tqdm==4.40.2
+scikit-image==0.13.1
+SimpleITK==1.0.1
+pydensecrf==1.0rc3

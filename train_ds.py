@@ -1,50 +1,69 @@
 """
 
-深度监督下的训练脚本
+训练脚本
 """
 
-from time import time
 import os
+from time import time
+
+import numpy as np
 
 import torch
 import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 
-from loss.Dice_loss import DiceLoss
-from net.DialResUNet import net
-from dataset.dataset_random import train_ds
+from visdom import Visdom
 
+from dataset.dataset import Dataset
 
-# 定义超参数
-on_server = True
+from loss.Dice import DiceLoss
+from loss.ELDice import ELDiceLoss
+from loss.WBCE import WCELoss
+from loss.Jaccard import JaccardLoss
+from loss.SS import SSLoss
+from loss.Tversky import TverskyLoss
+from loss.Hybrid import HybridLoss
+from loss.BCE import BCELoss
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0' if on_server is False else '1,2,3'
-cudnn.benchmark = True
-Epoch = 3000
-leaing_rate_base = 1e-4
-alpha = 0.33
-batch_size = 1 if on_server is False else 3
-num_workers = 1 if on_server is False else 3
-pin_memory = False if on_server is False else True
+from net.ResUNet import net
 
+import parameter as para
+
+# 设置visdom
+viz = Visdom(port=666)
+step_list = [0]
+win = viz.line(X=np.array([0]), Y=np.array([1.0]), opts=dict(title='loss'))
+
+# 设置显卡相关
+os.environ['CUDA_VISIBLE_DEVICES'] = para.gpu
+cudnn.benchmark = para.cudnn_benchmark
+
+# 定义网络
 net = torch.nn.DataParallel(net).cuda()
 net.train()
 
-# 定义数据加载
-train_dl = DataLoader(train_ds, batch_size, True, num_workers=num_workers, pin_memory=pin_memory)
+# 定义Dateset
+train_ds = Dataset(os.path.join(para.training_set_path, 'ct'), os.path.join(para.training_set_path, 'seg'))
 
-# 定义损失函数
-loss_func = DiceLoss()
+# 定义数据加载
+train_dl = DataLoader(train_ds, para.batch_size, True, num_workers=para.num_workers, pin_memory=para.pin_memory)
+
+# 挑选损失函数
+loss_func_list = [DiceLoss(), ELDiceLoss(), WCELoss(), JaccardLoss(), SSLoss(), TverskyLoss(), HybridLoss(), BCELoss()]
+loss_func = loss_func_list[5]
 
 # 定义优化器
-opt = torch.optim.Adam(net.parameters(), lr=leaing_rate_base)
+opt = torch.optim.Adam(net.parameters(), lr=para.learning_rate)
 
 # 学习率衰减
-lr_decay = torch.optim.lr_scheduler.MultiStepLR(opt, [1500])
+lr_decay = torch.optim.lr_scheduler.MultiStepLR(opt, para.learning_rate_decay)
+
+# 深度监督衰减系数
+alpha = para.alpha
 
 # 训练网络
 start = time()
-for epoch in range(Epoch):
+for epoch in range(para.Epoch):
 
     lr_decay.step()
 
@@ -70,19 +89,24 @@ for epoch in range(Epoch):
         loss.backward()
         opt.step()
 
-        if step % 20 is 0:
+        if step % 5 is 0:
+            
+            step_list.append(step_list[-1] + 1)
+            viz.line(X=np.array([step_list[-1]]), Y=np.array([loss4.item()]), win=win, update='append')
+            
             print('epoch:{}, step:{}, loss1:{:.3f}, loss2:{:.3f}, loss3:{:.3f}, loss4:{:.3f}, time:{:.3f} min'
                   .format(epoch, step, loss1.item(), loss2.item(), loss3.item(), loss4.item(), (time() - start) / 60))
 
     mean_loss = sum(mean_loss) / len(mean_loss)
 
-    if epoch % 10 is 0 and epoch is not 0:
+    # 保存模型
+    if epoch % 50 is 0 and epoch is not 0:
 
         # 网络模型的命名方式为：epoch轮数+当前minibatch的loss+本轮epoch的平均loss
-        torch.save(net.state_dict(), './module/net{}-{:.3f}-{:.3f}.pth'.format(epoch, loss.item(), mean_loss))
+        torch.save(net.state_dict(), './module/net{}-{:.3f}-{:.3f}.pth'.format(epoch, loss, mean_loss))
 
-    if epoch % 15 is 0 and epoch is not 0:
-
+    # 对深度监督系数进行衰减
+    if epoch % 40 is 0 and epoch is not 0:
         alpha *= 0.8
 
 # 深度监督的系数变化
@@ -123,5 +147,3 @@ for epoch in range(Epoch):
 # 0.001
 # 0.000
 # 0.000
-
-
