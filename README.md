@@ -10,10 +10,8 @@ https://competitions.codalab.org/competitions/17094
 ## Experiment
 The whole traning process run on three GTX 1080Ti with batch size epual to three, Figure 1 show some of the segmentation resluts of our 3DResUNet eval on 3D dataset.
 
-<div align=center>![reslut]()
-<center><Figure 1></center>
-
 <div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png"alt="segmentation reslut"/></div>
+<center><Figure 1></center>
 
 Figure 2 show the loss curve draw by visdom.
 <div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png"alt="loss curve"/></div>
