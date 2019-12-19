@@ -2,19 +2,22 @@
 
 查看肝脏区域slice占据整体slice的比例
 """
-import os
 
+import os
+import sys
+sys.path.append(os.path.split(sys.path[0])[0])
+
+from tqdm import tqdm
 import SimpleITK as sitk
 
+import parameter as para
 
-seg_path = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/train/seg/'
+total_slice = 0.0
+total_liver_slice = 0.0
 
-total_slice = .0
-total_liver_slice = .0
+for file in tqdm(os.listdir(para.test_seg_path)):
 
-for index, seg_file in enumerate(os.listdir(seg_path), start=1):
-
-    seg = sitk.ReadImage(os.path.join(seg_path, seg_file))
+    seg = sitk.ReadImage(os.path.join(para.test_seg_path, file))
     seg_array = sitk.GetArrayFromImage(seg)
 
     liver_slice = 0
@@ -26,10 +29,9 @@ for index, seg_file in enumerate(os.listdir(seg_path), start=1):
     total_slice += seg_array.shape[0]
     total_liver_slice += liver_slice
 
-    print('index:{}, precent:{:.4f}'.format(index, liver_slice / seg_array.shape[0] * 100))
+    print('precent:{:.4f}'.format(liver_slice / seg_array.shape[0] * 100))
 
 print(total_liver_slice / total_slice)
 
-# 训练集包含肝脏的slice整体占比: 32.59%
-# 测试集包含肝脏的slice整体占比: 33.23%
-
+# 训练集包含肝脏的slice整体占比: 30.61%
+# 测试集包含肝脏的slice整体占比: 73.46%

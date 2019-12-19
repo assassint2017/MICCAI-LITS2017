@@ -2,19 +2,22 @@
 
 查看肝脏区域像素点个数占据只包含肝脏区域的slice的百分比
 """
-import os
 
+import os
+import sys
+sys.path.append(os.path.split(sys.path[0])[0])
+
+from tqdm import tqdm
 import SimpleITK as sitk
 
+import parameter as para
 
-seg_path = '/home/zcy/Desktop/dataset/MICCAI-LITS-2017/test/seg/'
+total_point = 0.0
+total_liver_point = 0.0
 
-total_point = .0
-total_liver_point = .0
+for seg_file in tqdm(os.listdir(para.train_seg_path)):
 
-for index, seg_file in enumerate(os.listdir(seg_path), start=1):
-
-    seg = sitk.ReadImage(os.path.join(seg_path, seg_file))
+    seg = sitk.ReadImage(os.path.join(para.train_seg_path, seg_file), sitk.sitkUInt8)
     seg_array = sitk.GetArrayFromImage(seg)
 
     liver_slice = 0
@@ -25,13 +28,12 @@ for index, seg_file in enumerate(os.listdir(seg_path), start=1):
 
     liver_point = (seg_array > 0).astype(int).sum()
 
-    print('index:{}, precent:{:.4f}'.format(index, liver_point / (liver_slice * 512 * 512) * 100))
+    print('precent:{:.4f}'.format(liver_point / (liver_slice * 512 * 512) * 100))
 
     total_point += (liver_slice * 512 * 512)
     total_liver_point += liver_point
 
 print(total_liver_point / total_point)
 
-# 训练集 6.95%
-# 测试集 7.27%
-
+# 训练集 6.99%
+# 测试集 6.97%
