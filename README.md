@@ -1,24 +1,27 @@
 # liver segmengtation using deep learning
-and i hope this repo will give some good
+we use 3DResUnet to segment liver in CT images and use DenseCRF as post processing. I write as much comment as possible and hope you will find this reop useful!
 
 ## dataset
-for the detail about the MICCAI-LITS 2017 challenge, you can check this link:
+LiTS is a contain 131 CT images 
+we train our model with and test on 3D dataset
+and for the more detail, you can check this link:
 https://competitions.codalab.org/competitions/17094
 
 ## Implementation Details
 The whole traning process run on three GTX 1080Ti with batch size epual to three.
 
 ## Experiment
-![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmengtation-result.png)
+show some of the segmentation reslut below.
+![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png)
+
+the typical loss curve look like fllow which is draw using visdom.
+![loss curve](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png)
 
 ## Usage
-first 
+agter cd to the, first 
 
-```
-pip install -r requirements.txt
-```
-
-to install package
+set parameter in parameter.py and then run ./data_pareper/get_training_set.py to get training set
+then you can run ./train_ds.py to train the the network.
 
 ## Main references:
 1. Milletari F, Navab N, Ahmadi S A. V-net: Fully convolutional neural networks for volumetric medical image segmentation[C]//2016 Fourth International Conference on 3D Vision (3DV). IEEE, 2016: 565-571.
