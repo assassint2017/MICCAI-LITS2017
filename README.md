@@ -5,7 +5,7 @@ we use 3DResUnet to segment liver in CT images and use DenseCRF as post processi
 Liver tumor Segmentation Challenge (LiTS) contain 131 contrast-enhanced CT images provided by hospital around the world. 3DIRCADb dataset is a subset of LiTS dataset with case number from 27 to 48. we train our model with 111 cases from LiTS after removeing the data from 3DIRCADb and evaluate on 3DIRCADb dataset. For more detail about the dataset, you can check this link: https://competitions.codalab.org/competitions/17094
 
 ## Experiment
-The whole traning process run on three GTX-1080Ti with batch size epual to three, we show some of the segmentation resluts of our 3DResUNet evaluate on 3DIRCADb dataset.
+The whole traning process run on three GTX-1080Ti with batch size epual to three, we show some of the segmentation resluts of our 3DResUNet evaluate on 3DIRCADb dataset. Data augmentation is not used during the training process, because it is observed in the experiment that data enhancement such as random rotation or elastic deformation will lead to decrease in accuracy.
 
 <div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png"alt="segmentation reslut"/></div>  
 
