@@ -1,24 +1,19 @@
-# liver segmengtation using deep learning
-we use 3DResUnet to segment liver in CT images and use DenseCRF as post processing. I write as much comment as possible and hope you will find this reop useful!
+# Liver segmengtation using deep learning
+we use 3DResUnet to segment liver in CT images and use DenseCRF as post processing. I write as much comment as possible and hope you will find this repo useful!
 
-## dataset
-LiTS is a contain 131 CT images 
-we train our model with and test on 3D dataset
-and for the more detail, you can check this link:
-https://competitions.codalab.org/competitions/17094
+## Dataset
+Liver tumor Segmentation Challenge (LiTS) contain 131 contrast-enhanced CT images provided by hospital around the world. 3DIRCADb dataset is a subset of LiTS dataset with case number from 27 to 48. we train our model with 111 cases from LiTS after removeing the data from 3DIRCADb and evaluate on 3DIRCADb dataset. For more detail about the dataset, you can check this link: https://competitions.codalab.org/competitions/17094
 
 ## Experiment
-The whole traning process run on three GTX 1080Ti with batch size epual to three, Figure 1 show some of the segmentation resluts of our 3DResUNet eval on 3D dataset.
+The whole traning process run on three GTX-1080Ti with batch size epual to three, we show some of the segmentation resluts of our 3DResUNet evaluate on 3DIRCADb dataset.
 
-<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png"alt="segmentation reslut"/></div>
-<center><Figure 1></center>
+<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png"alt="segmentation reslut"/></div>  
 
-Figure 2 show the loss curve draw by visdom.
-<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png"alt="loss curve"/></div>
-<center><Figure 2></center>
+The loss curve is shown below which is draw by visdom.  
+<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png"alt="loss curve"/></div>  
   
 ## Usage
-i write all the parameter in parameter.py, so first set parameter in parameter.py and then run ./data_pareper/get_training_set.py to get training set then you can run ./train_ds.py to train the the network. after the model is trained, run val.py to test the model on test set, if you want to run ./Densecrf/3D-CRF.py or ./Densecrf/2D-CRF.py to 
+I write all the parameter in **parameter.py**, so first set dataset path etc of your own and then run **./data_pareper/get_training_set.py** to get the training set, then you can run **./train_ds.py** to train the the network from scratch. after the model is well trained, run **val.py** to test the model on test set, if you want to use DenseCRF as post processing, run **./Densecrf/3D-CRF.py** if you get enough memory, or run **./Densecrf/2D-CRF.py** other wise.
 
 ## Main references:
 1. Milletari F, Navab N, Ahmadi S A. V-net: Fully convolutional neural networks for volumetric medical image segmentation[C]//2016 Fourth International Conference on 3D Vision (3DV). IEEE, 2016: 565-571.
