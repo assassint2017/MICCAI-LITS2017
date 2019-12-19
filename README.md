@@ -1,30 +1,22 @@
-# MICCAI-LITS2017
+# liver segmengtation using deep learning
+and i hope this repo will give some good
+
+## dataset
 for the detail about the MICCAI-LITS 2017 challenge, you can check this link:
 https://competitions.codalab.org/competitions/17094
 
-i use VNet in this task. for the detail about the network architecture, you can check this link:  
-https://arxiv.org/abs/1606.04797
-
-## The change i make
-beacuse the original Vnet have so many parameters, so it may suffer from overfitting, thus,  i change the kernel size of each 3D convlayer to 3x3x3, and add dropout layer at some end of residual block. **and then i remove the last stage of the VNet since it is so coarse to help recover the segmentation detial, doing so, significantly reduced the receptive field, therefore, in order to compensate for the loss of receptive fields, i add some hybrid dilated convolution.** here i will show you some segmentation result i get:(blue repressent ground truth, red repressent the predict mask)
-
-![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/liver_seg.png)
-
 ## Implementation Details
-i split the orgin traning set to 111 and 20 as my own training and test set.i use adam optimzer, set the initial learning rate to 1e-4 and decay 10 times at 50 epoch.The whole traning process run on three GTX 1080Ti with batch size epual to three.
+The whole traning process run on three GTX 1080Ti with batch size epual to three.
 
-## Result 
-i use dice per case as metrics, and find differenet inputs resolution affect the final result a lot, through a lot of experiment, the final input to the net is 256x256x48，with axial spacing norm to 2mm, and i get 0.957 Dice per case for liver segmentation at my test set.
+## Experiment
+![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmengtation.png)
 
-|input resolution|slice spacing|expand slice|stride|Dice per case|
-|:--:|:--:|:--:|:--:|:--:|
-|128x128x32|3mm|5|5|0.895|
-|128x128x32|3mm|15|3|0.914|
-|256x256x32|3mm|15|3|0.932|
-|256x256x48|2mm|20|3|0.957|
-
-**since i remove the last stage of VNet, add dilated convolution and deep supervision, the performance has increased dramatically from 0.957 to 0.964**
-
+## Usage
 
 ### Main references:
-
+[1] Milletari F, Navab N, Ahmadi S A. V-net: Fully convolutional neural networks for volumetric medical image segmentation[C]//2016 Fourth International Conference on 3D Vision (3DV). IEEE, 2016: 565-571.
+[2] Wong K C L, Moradi M, Tang H, et al. 3d segmentation with exponential logarithmic loss for highly unbalanced object sizes[C]//International Conference on Medical Image Computing and Computer-Assisted Intervention. Springer, Cham, 2018: 612-619.
+[3] Yuan Y, Chao M, Lo Y C. Automatic skin lesion segmentation using deep fully convolutional networks with jaccard distance[J]. IEEE transactions on medical imaging, 2017, 36(9): 1876-1886.
+[4] 
+[5]
+[6]
