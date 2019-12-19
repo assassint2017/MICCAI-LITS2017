@@ -26,11 +26,5 @@ i use dice per case as metrics, and find differenet inputs resolution affect the
 **since i remove the last stage of VNet, add dilated convolution and deep supervision, the performance has increased dramatically from 0.957 to 0.964**
 
 
-## Next work
-my net still have some overfit problem. so next work will foucs on using more powerful and efficient network and data augmentation like rotating or elastic deformation to get better result.
+### Main references:
 
-### TODO:
-- [x] liver segmentation
-- [x] better network
-- [ ] data augmentation
-- [ ] tumor segmentation
