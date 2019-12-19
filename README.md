@@ -10,12 +10,14 @@ https://competitions.codalab.org/competitions/17094
 ## Experiment
 The whole traning process run on three GTX 1080Ti with batch size epual to three, Figure 1 show some of the segmentation resluts of our 3DResUNet eval on 3D dataset.
 
-<div align=center>![reslut](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png)
-<center>Figure 1</center>
+<div align=center>![reslut]()
+<center><Figure 1></center>
+
+<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/segmentation-result.png"alt="segmentation reslut"/></div>
 
 Figure 2 show the loss curve draw by visdom.
-<div align=center>![loss curve](https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png)
-<center>Figure 2</center>
+<div align=center><img src="https://github.com/assassint2017/MICCAI-LITS2017/blob/master/img/loss_curve.png"alt="loss curve"/></div>
+<center><Figure 2></center>
   
 ## Usage
 i write all the parameter in parameter.py, so first set parameter in parameter.py and then run ./data_pareper/get_training_set.py to get training set then you can run ./train_ds.py to train the the network. after the model is trained, run val.py to test the model on test set, if you want to run ./Densecrf/3D-CRF.py or ./Densecrf/2D-CRF.py to 
